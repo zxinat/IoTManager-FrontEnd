@@ -23,6 +23,8 @@ export  function getDevicePropertyData(deviceid,propertyid) {
 }
 
 
+
+
 //网关管理
 export  function getGatewaysApi() {
   return  axios.get('/api/gateway');
@@ -58,6 +60,8 @@ export  function searchGatewaysApi(data) {
     }
   });
 }
+
+
 
 //设备管理
 export  function getDevicesApi() {
@@ -279,12 +283,13 @@ export function getUserTable(username,depart) {
   });
 }
 
-export function deleteUser(userID) {
-  return axios.delete(`/api/deleteUser/${userID}`)
-}
 
 export function getAllAuthorities() {
   return axios.get('/api/getAllAuthorities');
+}
+
+export function deleteUser(userID) {
+  return axios.delete(`/api/deleteUser/${userID}`)
 }
 
 export function getAuthorities(userID) {
@@ -292,13 +297,20 @@ export function getAuthorities(userID) {
 }
 
 export function editAuthorities(userID,options) {
-  return axios.post(`/api/editAuthorities`,{
+  // options:['权限一','权限二']
+  return axios.put(`/api/editAuthorities`,{
     userID,
     options:options
   })
 }
 
 export function createNewUser(userInfo) {
+  // userinfo:
+  // {
+  //   userName:'',
+  //   department:'',
+  //   authorities:[‘权限一’，‘权限二’]
+  // }
   return axios.post(`/api/createNewUser`,{
     userInfo
   })
