@@ -2,7 +2,7 @@
   <div class="role-management-container">
     <div class="top-header">
       <span style="font-size: 25px">{{$t('message.roleManagement')}}</span>
-      <el-button type="primary" class="float-right" @click="createNewDialogFormVisible=true">创建新用户</el-button>
+      <el-button type="primary" class="float-right" @click="createNewDialogFormVisible=true">{{$t('message.creatNewUser')}}</el-button>
     </div>
     <div class="search">
       <el-row>

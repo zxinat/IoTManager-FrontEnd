@@ -9,6 +9,7 @@ const en = {
     'allDepartment':'allDepartment',//所有部门
     'search':'search',//搜索
     'userID':'userID',//用户编号
+    'creatNewUser':'creatNewUser',//创建新用户
   },
   ...enLocale
 }

@@ -8,7 +8,8 @@ const cn = {
     'allUser': '所有用户',
     'allDepartment': '所有部门',
     'search': '搜索',
-    'userID': '用户编号'
+    'userID': '用户编号',
+    'creatNewUser':'创建新用户',
   },
   ...zhLocale
 };
