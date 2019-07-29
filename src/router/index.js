@@ -12,6 +12,7 @@ import PhysicalDevice from '../container/PhysicalDevice/index';
 import EquipmentData from '../container/EquipmentData/index';
 import MonitoringConfiguration from '../container/MonitoringConfiguration/index';
 import WarningMessage from '../container/WarningMessage/index';
+import WarningRule from '../container/WarningRule/index';
 import PersonalInformation from '../container/PersonalInformation/index';
 import ReportCenter from '../container/ReportCenter/index';
 import ModelTraining from '../container/ModelTraining/index';
@@ -74,6 +75,14 @@ const routes = [
         path: '/warningMessage',
         name: 'WarningMessage',
         component: WarningMessage,
+        meta: {
+          requireAuth: true
+        },
+      },
+      {
+        path: '/warningRule',
+        name: 'WarningRule',
+        component: WarningRule,
         meta: {
           requireAuth: true
         },

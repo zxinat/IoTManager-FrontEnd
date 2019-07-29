@@ -20,7 +20,7 @@
         </el-form-item>
       </el-form>
     </div>
-    <h2 style="margin-left: 10px">告警规则</h2>
+<!--    <h2 style="margin-left: 10px">告警规则</h2>
     <div class="table-container">
       <el-table
         :data="rulesData"
@@ -37,11 +37,11 @@
           prop="deviceGroup"
           label="设备">
         </el-table-column>
-        <!--<el-table-column-->
-          <!--prop="handleState"-->
-          <!--label="处理状态"-->
-          <!--width="150">-->
-        <!--</el-table-column>-->
+        &lt;!&ndash;<el-table-column&ndash;&gt;
+          &lt;!&ndash;prop="handleState"&ndash;&gt;
+          &lt;!&ndash;label="处理状态"&ndash;&gt;
+          &lt;!&ndash;width="150">&ndash;&gt;
+        &lt;!&ndash;</el-table-column>&ndash;&gt;
         <el-table-column
         prop="conditionString"
         label="规则">
@@ -50,40 +50,40 @@
           prop="severity"
           label="告警等级">
         </el-table-column>
-        <!--<el-table-column-->
-          <!--prop="severityLevel"-->
-          <!--label="严重等级"-->
-          <!--width="150">-->
-        <!--</el-table-column>-->
-        <!--<el-table-column-->
-        <!--prop="ruleStatus"-->
-        <!--label="开启规则"-->
-        <!--width="150">-->
-       <!--</el-table-column>-->
-        <!--<el-table-column-->
-          <!--prop="affectNumber"-->
-          <!--label="影响数目"-->
-          <!--width="150">-->
-        <!--</el-table-column>-->
-        <!--<el-table-column-->
-          <!--fixed="right"-->
-          <!--label="操作"-->
-          <!--width="100">-->
-          <!--<template slot-scope="scope">-->
-            <!--<el-button @click="openUpdateForm(scope.row)" type="text" size="small">处理</el-button>-->
-            <!--&lt;!&ndash;<el-button @click="deleteDevice(scope.row)" type="text" size="small">删除</el-button>&ndash;&gt;-->
-          <!--</template>-->
-        <!--</el-table-column>-->
+        &lt;!&ndash;<el-table-column&ndash;&gt;
+          &lt;!&ndash;prop="severityLevel"&ndash;&gt;
+          &lt;!&ndash;label="严重等级"&ndash;&gt;
+          &lt;!&ndash;width="150">&ndash;&gt;
+        &lt;!&ndash;</el-table-column>&ndash;&gt;
+        &lt;!&ndash;<el-table-column&ndash;&gt;
+        &lt;!&ndash;prop="ruleStatus"&ndash;&gt;
+        &lt;!&ndash;label="开启规则"&ndash;&gt;
+        &lt;!&ndash;width="150">&ndash;&gt;
+       &lt;!&ndash;</el-table-column>&ndash;&gt;
+        &lt;!&ndash;<el-table-column&ndash;&gt;
+          &lt;!&ndash;prop="affectNumber"&ndash;&gt;
+          &lt;!&ndash;label="影响数目"&ndash;&gt;
+          &lt;!&ndash;width="150">&ndash;&gt;
+        &lt;!&ndash;</el-table-column>&ndash;&gt;
+        &lt;!&ndash;<el-table-column&ndash;&gt;
+          &lt;!&ndash;fixed="right"&ndash;&gt;
+          &lt;!&ndash;label="操作"&ndash;&gt;
+          &lt;!&ndash;width="100">&ndash;&gt;
+          &lt;!&ndash;<template slot-scope="scope">&ndash;&gt;
+            &lt;!&ndash;<el-button @click="openUpdateForm(scope.row)" type="text" size="small">处理</el-button>&ndash;&gt;
+            &lt;!&ndash;&lt;!&ndash;<el-button @click="deleteDevice(scope.row)" type="text" size="small">删除</el-button>&ndash;&gt;&ndash;&gt;
+          &lt;!&ndash;</template>&ndash;&gt;
+        &lt;!&ndash;</el-table-column>&ndash;&gt;
       </el-table>
     </div>
-    <br>
+    <br>-->
     <h2 style="margin-left: 10px">告警信息</h2>
     <!--<div class="addbutton-container">-->
       <!--<el-button type="primary" @click="newFormVisible = true">快速处理</el-button>-->
     <!--</div>-->
     <div class="table-container">
       <el-table
-        :data="tableData"
+        :data="tableData.slice((currentPage-1)*pageSize,currentPage*pageSize)"
         border
         style="width: 100%"
         @selection-change="handleSelectionChange">
@@ -140,6 +140,13 @@
           <!--</template>-->
         <!--</el-table-column>-->
       </el-table>
+      <div style="text-align: center; margin-top: 30px;">
+        <el-pagination
+          @current-change="handleCurrentChange"
+          layout="total, prev, pager, next, jumper"
+          :total="total">
+        </el-pagination>
+      </div>
     </div>
     <el-dialog title="告警处理" :visible.sync="updateFormVisible">
       <el-form :model="updateData">
@@ -239,7 +246,11 @@
           searchData: {
             deviceID: '',
             deviceName: ''
-          }
+          },
+          //分页
+          currentPage: 1,
+          pageSize: 12,
+          total: 20,
         }
       },
 
@@ -311,7 +322,13 @@
               };
             }
           }
+        },
+        //Wqm wrote from here
+        handleCurrentChange(currentPage) {
+          console.log(`当前页: ${currentPage}`);
+          this.currentPage = currentPage;
         }
+        //finish here
       },
       async mounted() {
         //获取所有设备信息

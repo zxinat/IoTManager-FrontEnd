@@ -23,7 +23,7 @@
     <h2 style="margin-left: 10px">告警规则</h2>
     <div class="table-container">
       <el-table
-        :data="rulesData"
+        :data="rulesData.slice((currentPage-1)*pageSize,currentPage*pageSize)"
         border>
         <el-table-column
           prop="name"
@@ -75,6 +75,13 @@
         <!--</template>-->
         <!--</el-table-column>-->
       </el-table>
+      <div style="text-align: center; margin-top: 30px;">
+        <el-pagination
+          @current-change="handleCurrentChange"
+          layout="total, prev, pager, next, jumper"
+          :total="total">
+        </el-pagination>
+      </div>
     </div>
   </div>
 </template>
@@ -128,7 +135,11 @@
         searchData: {
           deviceID: '',
           deviceName: ''
-        }
+        },
+        //分页
+        currentPage: 1,
+        pageSize: 12,
+        total: 20,
       }
     },
 
@@ -200,7 +211,13 @@
             };
           }
         }
+      },
+      //Wqm wrote from here
+      handleCurrentChange(currentPage) {
+        console.log(`当前页: ${currentPage}`);
+        this.currentPage = currentPage;
       }
+      //finish here
     },
     async mounted() {
       //获取所有设备信息
