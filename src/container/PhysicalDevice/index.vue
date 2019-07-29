@@ -58,17 +58,21 @@
     </div>
     <div class="table-container">
       <el-table
-        :data="tableData"
+        :data="tableData.slice((currentPage-1)*pageSize,currentPage*pageSize)"
         border
         style="width: 100%"
         @selection-change="handleSelectionChange"
-      id="physical-device-out-table">
+        @sort-change="hardwareDeviceIDSort"
+        id="physical-device-out-table">
         <el-table-column
           type="selection">
         </el-table-column>
         <el-table-column
           prop="hardwareDeviceID"
-          label="设备编号">
+          label="设备编号"
+          sortable="custom"
+          width="110"
+        >
         </el-table-column>
         <el-table-column
           prop="deviceName"
@@ -138,6 +142,13 @@
           </template>
         </el-table-column>
       </el-table>
+      <div style="text-align: center; margin-top: 30px;">
+        <el-pagination
+          @current-change="handleCurrentChange"
+          layout="total, prev, pager, next, jumper"
+          :total="total">
+        </el-pagination>
+      </div>
     </div>
     <div class="addbutton-container">
       <el-button type="primary" @click="multipleDelete">批量删除</el-button>
@@ -588,7 +599,11 @@
           },
           deleteData: {
             number: []
-          }
+          },
+          //分页
+          currentPage: 1,
+          pageSize: 12,
+          total: 4,
         }
       },
 
@@ -940,7 +955,17 @@
             this.searchDevice.workshop = "";
           }
           // 调获取车间接口，searchDevice.city，searchDevice.factory参数
+        },
+        //Wqm wrote from here
+        hardwareDeviceIDSort(){
+          //获取按照“设备编号”的排序
+        },
+
+        handleCurrentChange(currentPage) {
+          console.log(`当前页: ${currentPage}`);
+          this.currentPage = currentPage;
         }
+        //finish here
       },
       async mounted() {
         this.getCityList();

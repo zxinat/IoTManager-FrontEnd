@@ -33,7 +33,7 @@
     <!--<hr>-->
     <div class="table">
       <el-table
-        :data="tableData"
+        :data="tableData.slice((currentPage-1)*pageSize,currentPage*pageSize)"
         border
         style="width: 100%">
         <el-table-column
@@ -70,6 +70,13 @@
           </template>
         </el-table-column>
       </el-table>
+      <div style="text-align: center; margin-top: 30px;">
+        <el-pagination
+          @current-change="handleCurrentChange"
+          layout="total, prev, pager, next, jumper"
+          :total="total">
+        </el-pagination>
+      </div>
     </div>
 
     <el-dialog title="修改用户" :visible.sync="dialogFormVisible">
@@ -272,7 +279,11 @@
           email: '',
           phoneNumber: '',
           department: ''
-        }
+        },
+        //分页
+        currentPage: 1,
+        pageSize: 12,
+        total: 8,
       }
     },
     methods: {
@@ -375,7 +386,13 @@
         } else {
           this.tableData = (await getUserTable()).data.d;
         }
+      },
+      //Wqm wrote from here
+      handleCurrentChange(currentPage) {
+        console.log(`当前页: ${currentPage}`);
+        this.currentPage = currentPage;
       }
+      //finish here
     },
     async mounted() {
       // 获取所有部门和所有用户信息
