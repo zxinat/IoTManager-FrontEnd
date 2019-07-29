@@ -59,17 +59,20 @@
     </div>
     <div class="table-container">
       <el-table
-        :data="tableData"
+        :data="tableData.slice((currentPage-1)*pageSize,currentPage*pageSize)"
         border
         style="width: 100%"
         @selection-change="handleSelectionChange"
+        @sort-change="hardwareGatewayIDSort"
         id="gateway-equipment-out-table">
         <el-table-column
           type="selection">
         </el-table-column>
         <el-table-column
           prop="hardwareGatewayID"
-          label="网关编号">
+          label="网关编号"
+          sortable="custom"
+        >
         </el-table-column>
         <el-table-column
           prop="gatewayName"
@@ -132,6 +135,13 @@
           </template>
         </el-table-column>
       </el-table>
+      <div style="text-align: center; margin-top: 30px;">
+        <el-pagination
+          @current-change="handleCurrentChange"
+          layout="total, prev, pager, next, jumper"
+          :total="total">
+        </el-pagination>
+      </div>
     </div>
     <div class="addbutton-container">
       <el-button type="primary" @click="multipleDelete">批量删除</el-button>
@@ -548,7 +558,12 @@
         fileList: [],
         deleteData: {
           number: []
-        }
+        },
+
+        //分页
+        currentPage: 1,
+        pageSize: 12,
+        total: 18,
       }
     },
 
@@ -888,7 +903,19 @@
           this.searchGateway.workshop = "";
         }
         // 调获取车间接口，searchGateway.city，searchGateway.factory参数
+      },
+
+      //Wqm wrote from here
+      hardwareGatewayIDSort(){
+        //获取按照“网关编号”的排序
+      },
+
+      handleCurrentChange(currentPage) {
+        console.log(`当前页: ${currentPage}`);
+        this.currentPage = currentPage;
       }
+      //finish here
+
     }
     ,
     async mounted() {
